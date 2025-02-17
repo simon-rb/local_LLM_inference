@@ -1,1 +1,1 @@
-# local_LLM_inference
+# local_ll_inference
