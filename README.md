@@ -1,28 +1,26 @@
-# **🚀 Running a Local LLM: Mistral 7B on Mac**
+# **🚀 Running a Local LLM: Mistral 7B on Mac (Fully Offline)**
 ### **Workshop Guide – Secure, Private AI Deployment**
+**GitHub Repo:** [local_LLM_inference](https://github.com/simon-rb/local_LLM_inference.git)
+
+---
 
 ## **🔹 Overview**
-This guide will help you set up and run a **local AI chatbot using Mistral-7B-Instruct on your Mac**.  
-This model runs **completely offline**, ensuring **full privacy and security** without relying on the cloud.  
+This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
+This allows you to run an AI chatbot **fully offline**—no internet required, no cloud dependency, and **full privacy**.
 
-By the end of this workshop, you will:  
-✅ **Install all necessary software and tools** (even if you’ve never done it before).  
-✅ **Download and run an AI model locally**.  
-✅ **Chat with the AI completely offline**.  
-
-Follow along step-by-step, and you’ll have your own **AI assistant running locally!** 🚀  
+For this example, we will use **Mistral-7B-Instruct**, but you can replace it with **any GGUF-compatible model** like **Qwen, Llama, DeepSeek**, etc.
 
 ---
 
 ## **📂 1. Clone the Repository**
-First, download all the required files by cloning the **GitHub repository**:
+First, download all required files from the GitHub repository:
 
 ```bash
-git clone <YOUR_GITHUB_REPO_LINK>
-cd <YOUR_REPO_FOLDER>
+git clone https://github.com/simon-rb/local_LLM_inference.git
+cd local_LLM_inference
 ```
 
-> **What's inside?**  
+> **What’s inside?**  
 > - `README.md` → This guide  
 > - `local_inference.py` → The Python script to run the chatbot  
 
@@ -38,7 +36,7 @@ If you don’t have **Homebrew**, install it first (it makes installing other to
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Verify that it was installed correctly:
+Verify the installation:
 ```bash
 brew --version
 ```
@@ -46,19 +44,19 @@ brew --version
 ---
 
 ### **✅ 2. Install Python 3.9+**
-Check if you already have Python 3.9 or later:
+Check if Python is installed:
 
 ```bash
 python3 --version
 ```
 
-If the version is **lower than 3.9** or missing, install the latest Python:
+If you don’t have **Python 3.9 or later**, install it via Homebrew:
 
 ```bash
 brew install python
 ```
 
-Verify that Python was installed:
+Verify that Python is installed:
 ```bash
 python3 --version
 ```
@@ -66,13 +64,13 @@ python3 --version
 ---
 
 ### **✅ 3. Install Pip (Python Package Manager)**
-Ensure **pip** is installed (you will use this to install required Python libraries):
+Ensure **pip** is installed:
 
 ```bash
 python3 -m ensurepip --default-pip
 ```
 
-Upgrade `pip` to the latest version:
+Upgrade pip:
 
 ```bash
 pip install --upgrade pip
@@ -81,20 +79,20 @@ pip install --upgrade pip
 ---
 
 ### **✅ 4. Install Required Python Libraries**
-Now, install the **Llama-cpp** library, which allows local AI execution:
+Now, install `llama-cpp-python`, which enables local AI execution:
 
 ```bash
 pip install llama-cpp-python
 ```
 
 > **Why?**  
-> - This enables fast, **offline** execution of AI models on **Mac (MPS), CPU, and GPU**.  
-> - It removes the need for cloud APIs, making it **fully private**.  
+> - This library runs **GGUF models** efficiently on **Mac (MPS), CPU, and GPU**.  
+> - Works for various LLMs like **Mistral, Qwen, Llama, and DeepSeek**.  
 
 ---
 
 ## **🔹 3. Download the AI Model**
-The **Mistral-7B-Instruct-Q4_K_M GGUF** model is optimized for **local inference**.
+We use **Mistral-7B-Instruct-Q4_K_M**, optimized for **local inference**, but you can **choose any other GGUF model**.
 
 ### **1️⃣ Install Hugging Face CLI**
 We will use **Hugging Face** to download the model:
@@ -103,8 +101,8 @@ We will use **Hugging Face** to download the model:
 pip install huggingface-hub
 ```
 
-### **2️⃣ Download the Model**
-Run this command to download the model (~4GB):
+### **2️⃣ Download the Mistral Model**
+Run this command to download **Mistral-7B-Instruct-Q4_K_M** (~4GB):
 
 ```bash
 huggingface-cli download TheBloke/Mistral-7B-Instruct-v0.2-GGUF \
@@ -112,16 +110,17 @@ mistral-7b-instruct-v0.2.Q4_K_M.gguf --local-dir models \
 --local-dir-use-symlinks False
 ```
 
+> **Want a different model?**  
+> You can replace `Mistral-7B-Instruct` with another GGUF model, such as:
+> - **Qwen2.5-7B**: `huggingface-cli download TheBloke/Qwen2.5-7B-GGUF ...`
+> - **Llama 2-7B**: `huggingface-cli download TheBloke/Llama-2-7B-GGUF ...`
+> - **DeepSeek 7B**: `huggingface-cli download TheBloke/DeepSeek-7B-GGUF ...`
+
 ### **3️⃣ Move the Model to the Correct Folder**
 ```bash
 mkdir -p ~/local-llm/models
 mv models/mistral-7b-instruct-v0.2.Q4_K_M.gguf ~/local-llm/models/
 ```
-
-> **Why this model?**  
-> - **Mistral-7B-Instruct** → One of the best AI models for reasoning and conversation.  
-> - **Q4_K_M quantization** → Runs **fast** on Mac while maintaining good quality.  
-> - **Works 100% offline** → No internet needed after setup.  
 
 ---
 
@@ -130,7 +129,7 @@ Now that everything is installed, you can run the chatbot.
 
 ### **1️⃣ Navigate to the Script**
 ```bash
-cd <YOUR_REPO_FOLDER>
+cd local_LLM_inference
 ```
 
 ### **2️⃣ Run the Chatbot**
@@ -138,7 +137,7 @@ cd <YOUR_REPO_FOLDER>
 python3 local_inference.py
 ```
 
-> **If everything is working, you should see:**  
+> **If everything is set up correctly, you should see:**  
 > `Chatbot is ready! Type 'exit' to quit.`  
 
 ### **3️⃣ Start Chatting**
@@ -159,11 +158,11 @@ exit
 
 ## **🔹 5. Understanding the Code (`local_inference.py`)**
 ### **What Does This Script Do?**
-1. **Loads a local AI model (Mistral-7B-Instruct).**
-2. **Optimizes performance** using **CPU & Apple Metal (MPS GPU) acceleration**.
-3. **Maintains conversation memory** to improve multi-turn interactions.
-4. **Runs an interactive chatbot loop** where users can input queries.
-5. **Measures response time** to track performance.
+1. **Loads a local AI model** (default is **Mistral-7B**, but can be changed).  
+2. **Optimizes performance** using **CPU & GPU acceleration**.  
+3. **Maintains conversation memory** for multi-turn interactions.  
+4. **Runs an interactive chatbot loop** where users can ask questions.  
+5. **Measures response time** to track performance.  
 
 ### **Key Code Components**
 ```python
@@ -191,6 +190,13 @@ llm = Llama(
 - Using a smaller quantized model (`Q3_K_M`)  
 - Increasing `n_gpu_layers=35` for **Mac GPU acceleration**  
 
+### **Q: I want to use a different model (like Qwen or Llama). How do I do that?**
+✅ Just download the **GGUF file** for your chosen model and update `local_inference.py`:
+
+```python
+MODEL_PATH = "models/qwen2.5-7b.Q4_K_M.gguf"  # Example: Qwen2.5-7B
+```
+
 ### **Q: I get a "command not found" error for `huggingface-cli`**
 ✅ Run:
 ```bash
@@ -209,7 +215,7 @@ NUM_THREADS = 4  # Lower CPU usage
 🚀 **You now have a fully offline, private AI chatbot running on your Mac!**  
 ✅ **No API keys, No cloud, No privacy concerns**  
 ✅ **Works even without an internet connection**  
-✅ **Supports long conversations & complex queries**  
+✅ **Supports Mistral, Qwen, DeepSeek, Llama, and other GGUF models**  
 
 This setup allows you to explore AI **securely and privately**, without relying on OpenAI, Anthropic, or other cloud-based LLMs.
 
@@ -217,7 +223,7 @@ This setup allows you to explore AI **securely and privately**, without relying 
 
 ## **📂 Repository Structure**
 ```
-📂 <YOUR_REPO_FOLDER>/
+📂 local_LLM_inference/
  ├── 📄 README.md  # This guide
  ├── 📄 local_inference.py  # Python script to run the chatbot
  └── 📂 models/  # Folder to store the downloaded LLM model
