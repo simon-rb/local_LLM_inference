@@ -6,7 +6,7 @@
 
 ## **🔹 Overview**
 This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
-This allows you to run an AI chatbot **fully offline**—no internet required, no cloud dependency, and **full privacy**.
+This allows you to run an AI chatbot **fully offline**—no internet required.
 
 For this example, we will use **Mistral-7B-Instruct**, but you can replace it with **any GGUF-compatible model** like **Qwen, Llama, DeepSeek**, etc.
 
@@ -197,12 +197,6 @@ llm = Llama(
 MODEL_PATH = "models/qwen2.5-7b.Q4_K_M.gguf"  # Example: Qwen2.5-7B
 ```
 
-### **Q: I get a "command not found" error for `huggingface-cli`**
-✅ Run:
-```bash
-pip install huggingface-hub
-```
-
 ### **Q: My Mac is overheating or running too slow**
 ✅ Reduce CPU load:
 ```python
@@ -228,11 +222,5 @@ This setup allows you to explore AI **securely and privately**, without relying 
  ├── 📄 local_inference.py  # Python script to run the chatbot
  └── 📂 models/  # Folder to store the downloaded LLM model
 ```
-
----
-
-## **📌 Additional Resources**
-📂 **Mistral Model Repo:** [Mistral-7B-GGUF](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF)  
-📖 **Llama.cpp Documentation:** [GitHub](https://github.com/ggerganov/llama.cpp)  
 
 ---
