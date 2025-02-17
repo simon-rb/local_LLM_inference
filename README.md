@@ -1,8 +1,4 @@
 # **🚀 Running a Local LLM: Mistral 7B on Mac (Fully Offline)**
-### **Workshop Guide – Secure, Private AI Deployment**
-**GitHub Repo:** [local_LLM_inference](https://github.com/simon-rb/local_LLM_inference.git)
-
----
 
 ## **🔹 Overview**
 This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
