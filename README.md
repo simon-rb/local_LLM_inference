@@ -6,7 +6,7 @@
 
 ## **🔹 Overview**
 This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
-This allows you to run an AI chatbot **fully offline**—no internet required.
+This allows you to run an **AI chatbot fully offline**—no internet required.
 
 For this example, we will use **Mistral-7B-Instruct**, but you can replace it with **any GGUF-compatible model** like **Qwen, Llama, DeepSeek**, etc.
 
@@ -27,10 +27,10 @@ cd local_LLM_inference
 ---
 
 ## **🔹 2. Install Required Software**
-Before running the chatbot, we need to install some **essential tools**.
+Before running the chatbot, install the necessary dependencies.
 
 ### **✅ 1. Install Homebrew (Mac’s Package Manager)**
-If you don’t have **Homebrew**, install it first (it makes installing other tools much easier):
+If you don’t have **Homebrew**, install it first:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -50,7 +50,7 @@ Check if Python is installed:
 python3 --version
 ```
 
-If you don’t have **Python 3.9 or later**, install it via Homebrew:
+If missing or outdated, install it via Homebrew:
 
 ```bash
 brew install python
@@ -63,22 +63,7 @@ python3 --version
 
 ---
 
-### **✅ 3. Install Pip (Python Package Manager)**
-Ensure **pip** is installed:
-
-```bash
-python3 -m ensurepip --default-pip
-```
-
-Upgrade pip:
-
-```bash
-pip install --upgrade pip
-```
-
----
-
-### **✅ 4. Install Required Python Libraries**
+### **✅ 3. Install Required Python Libraries**
 Now, install `llama-cpp-python`, which enables local AI execution:
 
 ```bash
@@ -86,7 +71,7 @@ pip install llama-cpp-python
 ```
 
 > **Why?**  
-> - This library runs **GGUF models** efficiently on **Mac (MPS), CPU, and GPU**.  
+> - Runs **GGUF models** efficiently on **Mac (MPS), CPU, and GPU**.  
 > - Works for various LLMs like **Mistral, Qwen, Llama, and DeepSeek**.  
 
 ---
@@ -111,15 +96,15 @@ mistral-7b-instruct-v0.2.Q4_K_M.gguf --local-dir models \
 ```
 
 > **Want a different model?**  
-> You can replace `Mistral-7B-Instruct` with another GGUF model, such as:
+> Replace `Mistral-7B-Instruct` with another GGUF model, such as:
 > - **Qwen2.5-7B**: `huggingface-cli download TheBloke/Qwen2.5-7B-GGUF ...`
 > - **Llama 2-7B**: `huggingface-cli download TheBloke/Llama-2-7B-GGUF ...`
 > - **DeepSeek 7B**: `huggingface-cli download TheBloke/DeepSeek-7B-GGUF ...`
 
 ### **3️⃣ Move the Model to the Correct Folder**
 ```bash
-mkdir -p ~/local-llm/models
-mv models/mistral-7b-instruct-v0.2.Q4_K_M.gguf ~/local-llm/models/
+mkdir -p models
+mv models/mistral-7b-instruct-v0.2.Q4_K_M.gguf models/
 ```
 
 ---
@@ -138,7 +123,7 @@ python3 local_inference.py
 ```
 
 > **If everything is set up correctly, you should see:**  
-> `Chatbot is ready! Type 'exit' to quit.`  
+> `Chatbot ready! Type 'exit' to quit.`  
 
 ### **3️⃣ Start Chatting**
 Once the chatbot is running, type in a question, and it will respond.
@@ -156,52 +141,39 @@ exit
 
 ---
 
-## **🔹 5. Understanding the Code (`local_inference.py`)**
-### **What Does This Script Do?**
-1. **Loads a local AI model** (default is **Mistral-7B**, but can be changed).  
-2. **Optimizes performance** using **CPU & GPU acceleration**.  
-3. **Maintains conversation memory** for multi-turn interactions.  
-4. **Runs an interactive chatbot loop** where users can ask questions.  
-5. **Measures response time** to track performance.  
+## **🔹 5. Using a Qwen Model Instead of Mistral**
+If you want to **replace Mistral with Qwen**, follow these steps:
 
-### **Key Code Components**
-```python
-from llama_cpp import Llama
+### **1️⃣ Download Qwen-7B Model**
+Instead of downloading **Mistral**, run:
 
-# Load the model with optimized settings
-llm = Llama(
-    model_path="models/mistral-7b-instruct-v0.2.Q4_K_M.gguf",  # Path to model
-    n_ctx=3072,  # How much history the model remembers
-    n_threads=6,  # Number of CPU threads to use
-    n_batch=1024,  # Number of tokens processed in a batch
-    chat_format="mistral-instruct",  # Ensures conversational behavior
-    temperature=0.2,  # Keeps responses factual (lower randomness)
-    top_p=0.9,  # Controls response diversity
-    n_gpu_layers=35,  # Moves more computation to GPU (Mac optimization)
-)
+```bash
+huggingface-cli download TheBloke/Qwen2.5-7B-Instruct-GGUF \
+Qwen2.5-7B-Instruct.Q4_K_M.gguf --local-dir models \
+--local-dir-use-symlinks False
 ```
 
----
-
-## **🔹 6. Troubleshooting**
-### **Q: The chatbot is running too slow!**
-✅ Try:
-- Lowering `N_CTX` to `2048`  
-- Using a smaller quantized model (`Q3_K_M`)  
-- Increasing `n_gpu_layers=35` for **Mac GPU acceleration**  
-
-### **Q: I want to use a different model (like Qwen or Llama). How do I do that?**
-✅ Just download the **GGUF file** for your chosen model and update `local_inference.py`:
+### **2️⃣ Update `local_inference.py`**
+Open `local_inference.py` and change the `model_path` to:
 
 ```python
-MODEL_PATH = "models/qwen2.5-7b.Q4_K_M.gguf"  # Example: Qwen2.5-7B
+def load_model():
+    """Loads the Qwen model with optimized settings."""
+    return Llama(
+        model_path="models/Qwen2.5-7B-Instruct.Q4_K_M.gguf",  # Path to Qwen model
+        n_gpu_layers=35,  # Offloads computation to GPU for better performance
+        verbose=False  # Suppresses unnecessary debug logs
+    )
 ```
 
-### **Q: My Mac is overheating or running too slow**
-✅ Reduce CPU load:
-```python
-NUM_THREADS = 4  # Lower CPU usage
+### **3️⃣ Run the Chatbot**
+Once the model is downloaded and the script is updated, run:
+
+```bash
+python3 local_inference.py
 ```
+
+This will launch **Qwen2.5-7B** instead of **Mistral**. 🚀
 
 ---
 
