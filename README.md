@@ -1,10 +1,10 @@
-# **🚀 Running a Local LLM: Mistral 7B on Mac (Fully Offline)**
+# **🚀 Running a Local LLM: DeepSeek-R1-Distill-Qwen-7B on Mac (Fully Offline)**
 
 ## **🔹 Overview**
 This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
 This allows you to run an **AI chatbot fully offline**—no internet required.
 
-For this example, we will use **Mistral-7B-Instruct**, but you can replace it with **any GGUF-compatible model** like **Qwen, Llama, DeepSeek**, etc.
+For this example, we will use **DeepSeek-R1-Distill-Qwen-7B**, but you can replace it with **any GGUF-compatible model** like **Qwen, Llama, DeepSeek**, etc.
 
 ---
 
@@ -73,7 +73,7 @@ pip install llama-cpp-python
 ---
 
 ## **🔹 3. Download the AI Model**
-We use **Mistral-7B-Instruct-Q4_K_M**, optimized for **local inference**, but you can **choose any other GGUF model**.
+We use **DeepSeek-R1-Distill-Qwen-7B**, optimized for **local inference**, but you can **choose any other GGUF model**.
 
 ### **1️⃣ Install Hugging Face CLI**
 We will use **Hugging Face** to download the model:
@@ -82,17 +82,17 @@ We will use **Hugging Face** to download the model:
 pip install huggingface-hub
 ```
 
-### **2️⃣ Download the Mistral Model**
-Run this command to download **Mistral-7B-Instruct-Q4_K_M** (~4GB):
+### **2️⃣ Download the Deepseek Model**
+Run this command to download **DeepSeek-R1-Distill-Qwen-7B** (~4GB):
 
 ```bash
-huggingface-cli download TheBloke/Mistral-7B-Instruct-v0.2-GGUF \
-mistral-7b-instruct-v0.2.Q4_K_M.gguf --local-dir models \
+huggingface-cli download tensorblock/DeepSeek-R1-Distill-Qwen-7B-GGUF \
+--include "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf" --local-dir models \
 --local-dir-use-symlinks False
 ```
 
 > **Want a different model?**  
-> Replace `Mistral-7B-Instruct` with another GGUF model, such as:
+> Replace `DeepSeek-R1-Distill-Qwen-7B` with another GGUF model, such as:
 > - **Qwen2.5-7B**: `huggingface-cli download TheBloke/Qwen2.5-7B-GGUF ...`
 > - **Llama 2-7B**: `huggingface-cli download TheBloke/Llama-2-7B-GGUF ...`
 > - **DeepSeek 7B**: `huggingface-cli download TheBloke/DeepSeek-7B-GGUF ...`
@@ -100,7 +100,7 @@ mistral-7b-instruct-v0.2.Q4_K_M.gguf --local-dir models \
 ### **3️⃣ Move the Model to the Correct Folder**
 ```bash
 mkdir -p models
-mv models/mistral-7b-instruct-v0.2.Q4_K_M.gguf models/
+mv models/DeepSeek-R1-Distill-Qwen-7B.gguf models/
 ```
 
 ---
