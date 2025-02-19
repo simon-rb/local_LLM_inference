@@ -6,7 +6,7 @@ def load_model():
     return Llama(
         model_path="models/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",  # Path to the downloaded model
         n_gpu_layers=35,  # Offloads computation to GPU for better performance (Mac MPS optimization)
-        verbose=False  # Suppresses unnecessary debug outputs for a clean terminal experience
+        verbose=False,  # Suppresses unnecessary debug outputs for a clean terminal experience
     )
 
 
@@ -28,7 +28,9 @@ def run_chatbot():
 
             # 🔹 Generate response from the model
             response = llm.create_chat_completion(
-                messages=[{"role": "user", "content": user_input}]  # Pass user input as a chat message
+                messages=[
+                    {"role": "user", "content": user_input}
+                ]  # Pass user input as a chat message
             )
 
             # 🔹 Extract and clean the bot's response
