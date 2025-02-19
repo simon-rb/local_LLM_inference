@@ -1,6 +1,6 @@
 # **🚀 Running a Local LLM: DeepSeek-R1-Distill-Qwen-7B on Mac (Fully Offline)**
 
-## **🔹 Overview**
+## **🔹 Overview**  
 This guide walks you through **deploying and running a Large Language Model (LLM) locally on your Mac**.  
 This allows you to run an **AI chatbot fully offline**—no internet required.
 
@@ -8,7 +8,7 @@ For this example, we will use **DeepSeek-R1-Distill-Qwen-7B**, but you can repla
 
 ---
 
-## **📂 1. Clone the Repository**
+## **📂 1. Clone the Repository**  
 First, download all required files from the GitHub repository:
 
 ```bash
@@ -22,10 +22,10 @@ cd local_LLM_inference
 
 ---
 
-## **🔹 2. Install Required Software**
+## **🔹 2. Install Required Software**  
 Before running the chatbot, install the necessary dependencies.
 
-### **✅ 1. Install Homebrew (Mac’s Package Manager)**
+### **✅ 1. Install Homebrew (Mac’s Package Manager)**  
 If you don’t have **Homebrew**, install it first:
 
 ```bash
@@ -39,7 +39,7 @@ brew --version
 
 ---
 
-### **✅ 2. Install Python 3.9+**
+### **✅ 2. Install Python 3.9+**  
 Check if Python is installed:
 
 ```bash
@@ -59,7 +59,7 @@ python3 --version
 
 ---
 
-### **✅ 3. Install Required Python Libraries**
+### **✅ 3. Install Required Python Libraries**  
 Now, install `llama-cpp-python`, which enables local AI execution:
 
 ```bash
@@ -68,22 +68,22 @@ pip install llama-cpp-python
 
 > **Why?**  
 > - Runs **GGUF models** efficiently on **Mac (MPS), CPU, and GPU**.  
-> - Works for various LLMs like **Mistral, Qwen, Llama, and DeepSeek**.  
+> - Works for various LLMs like **Qwen, Llama, and DeepSeek**.  
 
 ---
 
-## **🔹 3. Download the AI Model**
+## **🔹 3. Download the AI Model**  
 We use **DeepSeek-R1-Distill-Qwen-7B**, optimized for **local inference**, but you can **choose any other GGUF model**.
 
-### **1️⃣ Install Hugging Face CLI**
+### **1️⃣ Install Hugging Face CLI**  
 We will use **Hugging Face** to download the model:
 
 ```bash
 pip install huggingface-hub
 ```
 
-### **2️⃣ Download the Deepseek Model**
-Run this command to download **DeepSeek-R1-Distill-Qwen-7B** (~4GB):
+### **2️⃣ Download the DeepSeek Model**  
+Run this command to download **DeepSeek-R1-Distill-Qwen-7B** (~4.68 GB):
 
 ```bash
 huggingface-cli download tensorblock/DeepSeek-R1-Distill-Qwen-7B-GGUF \
@@ -95,25 +95,24 @@ huggingface-cli download tensorblock/DeepSeek-R1-Distill-Qwen-7B-GGUF \
 > Replace `DeepSeek-R1-Distill-Qwen-7B` with another GGUF model, such as:
 > - **Qwen2.5-7B**: `huggingface-cli download TheBloke/Qwen2.5-7B-GGUF ...`
 > - **Llama 2-7B**: `huggingface-cli download TheBloke/Llama-2-7B-GGUF ...`
-> - **DeepSeek 7B**: `huggingface-cli download TheBloke/DeepSeek-7B-GGUF ...`
 
-### **3️⃣ Move the Model to the Correct Folder**
+### **3️⃣ Move the Model to the Correct Folder**  
 ```bash
 mkdir -p models
-mv models/DeepSeek-R1-Distill-Qwen-7B.gguf models/
+mv models/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf models/
 ```
 
 ---
 
-## **🔹 4. Running the Local Chatbot**
+## **🔹 4. Running the Local Chatbot**  
 Now that everything is installed, you can run the chatbot.
 
-### **1️⃣ Navigate to the Script**
+### **1️⃣ Navigate to the Script**  
 ```bash
 cd local_LLM_inference
 ```
 
-### **2️⃣ Run the Chatbot**
+### **2️⃣ Run the Chatbot**  
 ```bash
 python3 local_inference.py
 ```
@@ -121,7 +120,7 @@ python3 local_inference.py
 > **If everything is set up correctly, you should see:**  
 > `Chatbot ready! Type 'exit' to quit.`  
 
-### **3️⃣ Start Chatting**
+### **3️⃣ Start Chatting**  
 Once the chatbot is running, type in a question, and it will respond.
 
 Example:
@@ -137,11 +136,11 @@ exit
 
 ---
 
-## **🔹 5. Using a Qwen Model Instead of Mistral**
-If you want to **replace Mistral with Qwen**, follow these steps:
+## **🔹 5. Using a Different Model Instead of DeepSeek**  
+If you want to **replace DeepSeek with another model**, follow these steps:
 
-### **1️⃣ Download Qwen-7B Model**
-Instead of downloading **Mistral**, run:
+### **1️⃣ Download Another Model**  
+Example for **Qwen-7B**:
 
 ```bash
 huggingface-cli download TheBloke/Qwen2.5-7B-Instruct-GGUF \
@@ -149,7 +148,7 @@ Qwen2.5-7B-Instruct.Q4_K_M.gguf --local-dir models \
 --local-dir-use-symlinks False
 ```
 
-### **2️⃣ Update `local_inference.py`**
+### **2️⃣ Update `local_inference.py`**  
 Open `local_inference.py` and change the `model_path` to:
 
 ```python
@@ -162,28 +161,28 @@ def load_model():
     )
 ```
 
-### **3️⃣ Run the Chatbot**
+### **3️⃣ Run the Chatbot**  
 Once the model is downloaded and the script is updated, run:
 
 ```bash
 python3 local_inference.py
 ```
 
-This will launch **Qwen2.5-7B** instead of **Mistral**. 🚀
+This will launch **Qwen2.5-7B** instead of **DeepSeek-R1-Distill-Qwen-7B**. 🚀
 
 ---
 
-## **📌 Summary**
+## **📌 Summary**  
 🚀 **You now have a fully offline, private AI chatbot running on your Mac!**  
 ✅ **No API keys, No cloud, No privacy concerns**  
 ✅ **Works even without an internet connection**  
-✅ **Supports Mistral, Qwen, DeepSeek, Llama, and other GGUF models**  
+✅ **Supports Qwen, DeepSeek, Llama, and other GGUF models**  
 
 This setup allows you to explore AI **securely and privately**, without relying on OpenAI, Anthropic, or other cloud-based LLMs.
 
 ---
 
-## **📂 Repository Structure**
+## **📂 Repository Structure**  
 ```
 📂 local_LLM_inference/
  ├── 📄 README.md  # This guide
